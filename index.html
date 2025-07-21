@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bài giảng: Vận tốc trong Dao động điều hòa - Thầy Lâm</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googles.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
@@ -206,8 +206,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxROE6rV-RnqTYfPdu4N0rOGeLkzorJoeDF3uiOR0bOgOnz0Inr0QwTohngJGHGQVI/exec';
 
     // --- State Management ---
-    const apiKeys = ['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'];
-    let currentApiKeyIndex = 0;
+    const Keys = ['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'];
+    let currentKeyIndex = 0;
     let quizQuestions = [];
     let userAnswers = {};
     let studentName = '';
@@ -245,14 +245,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // --- API Key Management ---
-    function getApiKey() {
-        if (apiKeys.length === 0) return null;
-        return apiKeys[currentApiKeyIndex];
+    // ---  Key Management ---
+    function getKey() {
+        if (Keys.length === 0) return null;
+        return Keys[currentKeyIndex];
     }
 
-    function rotateApiKey() {
-        currentApiKeyIndex = (currentApiKeyIndex + 1) % apiKeys.length;
+    function rotateKey() {
+        currentKeyIndex = (currentKeyIndex + 1) % Keys.length;
     }
 
     // --- Velocity Simulation ---
@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const fullPrompt = `Bạn là Thầy Lâm, một chuyên gia về môn Vật Lý. Hãy trả lời câu hỏi sau đây của học sinh về chủ đề 'vận tốc trong dao động điều hòa': "${question}". Chỉ trả lời nếu câu hỏi liên quan đến chủ đề, nếu không hãy từ chối một cách hài hước.`;
         
         try {
-            const content = await fetchWithApiKeyRotation('https://openrouter.ai/api/v1/chat/completions', {
+            const content = await fetchWithKeyRotation('https://openrouter.ai//v1/chat/completions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -390,42 +390,42 @@ document.addEventListener('DOMContentLoaded', function () {
             promptInput.value = '';
 
         } catch (error) {
-            responseContainer.textContent = `Rất tiếc, đã có lỗi xảy ra: ${error.message}. Có thể API key của bạn không hợp lệ hoặc đã hết hạn.`;
+            responseContainer.textContent = `Rất tiếc, đã có lỗi xảy ra: ${error.message}. Có thể  key của bạn không hợp lệ hoặc đã hết hạn.`;
         } finally {
             toggleButtonLoading(submitBtn, false);
             promptInput.disabled = false;
         }
     }
 
-    async function fetchWithApiKeyRotation(url, options, initialTry = true) {
-        if (apiKeys.length === 0) throw new Error("Không có API key nào được cấu hình.");
-        const apiKey = getApiKey();
-        if (!apiKey) throw new Error("Không tìm thấy API key hợp lệ.");
+    async function fetchWithKeyRotation(url, options, initialTry = true) {
+        if (Keys.length === 0) throw new Error("Không có  key nào được cấu hình.");
+        const Key = getKey();
+        if (!Key) throw new Error("Không tìm thấy  key hợp lệ.");
 
-        const headers = { ...options.headers, 'Authorization': `Bearer ${apiKey}` };
+        const headers = { ...options.headers, 'Authorization': `Bearer ${Key}` };
         const newOptions = { ...options, headers };
 
         try {
             const response = await fetch(url, newOptions);
             if (!response.ok) {
-                if ((response.status === 401 || response.status === 403) && (initialTry || currentApiKeyIndex !== 0)) {
-                     rotateApiKey();
-                     if(currentApiKeyIndex === 0 && !initialTry) {
-                        throw new Error(`Tất cả ${apiKeys.length} API key đều không hợp lệ hoặc đã hết hạn.`);
+                if ((response.status === 401 || response.status === 403) && (initialTry || currentKeyIndex !== 0)) {
+                     rotateKey();
+                     if(currentKeyIndex === 0 && !initialTry) {
+                        throw new Error(`Tất cả ${Keys.length}  key đều không hợp lệ hoặc đã hết hạn.`);
                      }
-                     return fetchWithApiKeyRotation(url, options, false);
+                     return fetchWithKeyRotation(url, options, false);
                 }
                 const errorData = await response.json().catch(() => ({}));
                 throw new Error(`Lỗi ${response.status}: ${errorData.error?.message || response.statusText}`);
             }
             return await response.json();
         } catch (error) {
-            if (initialTry || currentApiKeyIndex !== 0) {
-                rotateApiKey();
-                if(currentApiKeyIndex === 0 && !initialTry) {
-                    throw new Error(`Lỗi mạng và đã thử hết các API key. Chi tiết: ${error.message}`);
+            if (initialTry || currentKeyIndex !== 0) {
+                rotateKey();
+                if(currentKeyIndex === 0 && !initialTry) {
+                    throw new Error(`Lỗi mạng và đã thử hết các  key. Chi tiết: ${error.message}`);
                 }
-                return fetchWithApiKeyRotation(url, options, false);
+                return fetchWithKeyRotation(url, options, false);
             }
             throw error;
         }
