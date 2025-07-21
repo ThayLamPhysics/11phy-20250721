@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài giảng: Vận tốc trong Dao động điều hòa - Thầy Lâm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lora', serif;
+            background-color: #F7F3E9; /* Màu nền kem nhạt */
+        }
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .tab-btn.active {
+            border-color: #92400E; /* amber-800 */
+            color: #92400E; /* amber-800 */
+            font-weight: 700;
+        }
+        .primary-btn {
+            background-color: #166534; /* green-800 */
+            transition: background-color 0.3s ease;
+            border: 1px solid #14532D; /* green-900 */
+        }
+        .primary-btn:hover {
+            background-color: #14532D; /* green-900 */
+        }
+        .secondary-btn {
+            background-color: #B45309; /* amber-700 */
+            transition: background-color 0.3s ease;
+            border: 1px solid #92400E; /* amber-800 */
+        }
+        .secondary-btn:hover {
+            background-color: #92400E; /* amber-800 */
+        }
+        .choice-card {
+            background-color: #F3F4F6; /* gray-100 */
+            border: 1px solid #D1D5DB; /* gray-300 */
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .choice-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px -4px rgba(0,0,0,0.1);
+            border-color: #92400E; /* amber-800 */
+        }
+        .choice-card.selected {
+            background-color: #FEF3C7; /* amber-100 */
+            border-color: #D97706; /* amber-600 */
+        }
+        .choice-card.correct {
+            background-color: #D1FAE5; /* green-100 */
+            border-color: #059669; /* green-600 */
+        }
+        .choice-card.incorrect {
+            background-color: #FEE2E2; /* red-100 */
+            border-color: #DC2626; /* red-600 */
+        }
+        .flag-btn.flagged svg {
+            fill: #D97706; /* amber-600 */
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loader {
+            animation: spin 1s linear infinite;
+        }
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="font-serif-display text-4xl md:text-6xl font-bold text-stone-900">Vật Lý Lớp 11</h1>
+            <p class="text-lg text-stone-600 mt-2">Chuyên đề: Dao động điều hòa cùng Thầy Lâm</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="mb-8 border-b border-stone-300">
+            <nav class="flex flex-wrap -mb-px space-x-6" id="tabContainer">
+                <button class="tab-btn py-4 px-2 text-lg font-medium text-center text-stone-500 border-b-2 border-transparent hover:text-stone-700 hover:border-stone-400" data-tab="intro">
+                    Giới thiệu
+                </button>
+                <button class="tab-btn py-4 px-2 text-lg font-medium text-center text-stone-500 border-b-2 border-transparent hover:text-stone-700 hover:border-stone-400" data-tab="velocity">
+                    Vận tốc trong DĐĐH
+                </button>
+                <button class="tab-btn py-4 px-2 text-lg font-medium text-center text-stone-500 border-b-2 border-transparent hover:text-stone-700 hover:border-stone-400" data-tab="quiz">
+                    Kiểm tra kiến thức
+                </button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <main id="tabContent">
+            <!-- Intro Tab -->
+            <div id="intro" class="tab-pane bg-[#FAF8F3] p-8 rounded-lg border border-stone-300 shadow-sm">
+                <h2 class="font-serif-display text-3xl font-bold text-green-900 mb-4">Lời chào từ Thầy Lâm</h2>
+                <p class="text-lg leading-relaxed mb-4">
+                    Chào các em học sinh thân mến! Thầy là Lâm đây. Các em có bao giờ tự hỏi, tại sao chiếc lá rung rinh trên cành, tại sao con lắc đồng hồ lại đung đưa một cách đều đặn như vậy không? Đó không phải là phép màu, mà là vẻ đẹp của Vật Lý, cụ thể là "Dao động điều hòa".
+                </p>
+                <p class="text-lg leading-relaxed">
+                    Giống như một câu chuyện ngụ ngôn, mỗi dao động đều có nhịp điệu riêng, có lúc nhanh, lúc chậm, lúc dừng lại rồi đổi chiều. Trong chuyên đề này, chúng ta sẽ cùng nhau khám phá câu chuyện về "vận tốc" - người bạn đồng hành không thể thiếu của mỗi dao động. Hãy cùng thầy vén bức màn bí ẩn và tìm hiểu xem vận tốc thay đổi diệu kỳ như thế nào nhé!
+                </p>
+            </div>
+
+            <!-- Velocity Tab -->
+            <div id="velocity" class="tab-pane hidden bg-[#FAF8F3] p-8 rounded-lg border border-stone-300 shadow-sm">
+                <h2 class="font-serif-display text-3xl font-bold text-green-900 mb-6">Vận tốc trong Dao động điều hòa</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-serif-display text-xl font-bold text-amber-800 mb-3">Tóm tắt kiến thức</h3>
+                        <p class="mb-4">Vận tốc là đại lượng đặc trưng cho sự nhanh chậm của chuyển động. Trong dao động điều hòa, vận tốc không phải là hằng số mà biến thiên theo thời gian.</p>
+                        <ul class="space-y-3 list-disc list-inside bg-stone-100 p-4 rounded-md border border-stone-200">
+                            <li><strong>Phương trình vận tốc:</strong> v = x' = -ωA sin(ωt + φ)</li>
+                            <li><strong>Công thức độc lập thời gian:</strong> A<sup>2</sup> = x<sup>2</sup> + (v/ω)<sup>2</sup></li>
+                            <li><strong>Vận tốc cực đại (v<sub>max</sub>):</strong> Đạt được khi vật đi qua vị trí cân bằng (x=0). v<sub>max</sub> = ωA.</li>
+                            <li><strong>Vận tốc cực tiểu (v<sub>min</sub>):</strong> Bằng 0 khi vật ở hai vị trí biên (x = ±A).</li>
+                            <li><strong>Pha của vận tốc:</strong> Vận tốc <span class="font-semibold">sớm pha hơn li độ x một góc π/2</span>.</li>
+                        </ul>
+                        <div class="mt-4 p-4 border-l-4 border-amber-600 bg-amber-50 rounded-r-md">
+                            <p class="font-semibold font-serif-display text-amber-900">Ví dụ:</p>
+                            <p>Một vật dao động điều hòa có phương trình x = 5cos(2πt) cm. Vận tốc cực đại của vật là v<sub>max</sub> = ωA = 2π * 5 = 10π cm/s.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-serif-display text-xl font-bold text-amber-800 mb-3">Mô phỏng trực quan</h3>
+                        <div id="velocity-simulation" class="w-full h-64 bg-stone-100 rounded-lg border border-stone-300 flex items-center justify-center">
+                            <svg id="svg-velocity" width="100%" height="100%" viewBox="-120 -120 240 240"></svg>
+                        </div>
+                        <p class="text-sm text-center mt-2 text-stone-500">Mô phỏng mối liên hệ giữa chuyển động tròn đều và dao động điều hòa.</p>
+                    </div>
+                </div>
+
+                <!-- AI Interaction Corner -->
+                <div class="mt-10 pt-6 border-t border-stone-300">
+                    <h3 class="font-serif-display text-2xl font-bold text-green-900 mb-4">Góc tương tác cùng AI Thầy Lâm</h3>
+                    <div class="bg-stone-100 p-4 rounded-lg border border-stone-200">
+                        <div id="ai-response-velocity" class="mb-4 p-3 bg-white rounded shadow-inner min-h-[50px] text-stone-700 whitespace-pre-wrap"></div>
+                        <div class="flex items-center space-x-3">
+                            <input type="text" id="ai-prompt-velocity" class="flex-grow p-2 border border-stone-300 rounded-md focus:ring-amber-700 focus:border-amber-700" placeholder="Bạn có câu hỏi gì về vận tốc DĐĐH không?">
+                            <button id="ai-submit-velocity" class="secondary-btn text-white font-bold py-2 px-4 rounded-md flex items-center justify-center">
+                                <span class="btn-text">Gửi</span>
+                                <div class="loader w-5 h-5 border-2 border-white border-t-transparent rounded-full hidden"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Tab -->
+            <div id="quiz" class="tab-pane hidden bg-[#FAF8F3] p-8 rounded-lg border border-stone-300 shadow-sm">
+                <div id="quiz-start-screen">
+                    <h2 class="font-serif-display text-3xl font-bold text-green-900 mb-4">Bài kiểm tra kiến thức</h2>
+                    <p class="mb-6 text-lg text-stone-700">Hãy nhập tên của em để bắt đầu làm bài. Hệ thống sẽ tự động điều chỉnh số lượng câu hỏi dựa trên kết quả lần làm bài gần nhất của em nhé!</p>
+                    <div class="max-w-md mx-auto">
+                        <label for="studentName" class="block text-sm font-medium text-stone-700 mb-2">Tên của em là:</label>
+                        <input type="text" id="studentName" class="w-full p-3 border border-stone-300 rounded-lg focus:ring-amber-700 focus:border-amber-700" placeholder="Ví dụ: Nguyễn Văn An">
+                        <button id="startQuizBtn" class="w-full primary-btn text-white font-bold py-3 px-6 rounded-md mt-4 text-lg">
+                            <span class="btn-text">Bắt đầu làm bài</span>
+                            <div class="loader w-6 h-6 border-2 border-white border-t-transparent rounded-full hidden mx-auto"></div>
+                        </button>
+                    </div>
+                </div>
+                <!-- NEW: Info Screen -->
+                <div id="quiz-info-screen" class="hidden text-center max-w-md mx-auto">
+                    <!-- Content will be injected by JS -->
+                </div>
+                <div id="quiz-container" class="hidden">
+                    <!-- Quiz content will be injected here -->
+                </div>
+                <div id="quiz-results-screen" class="hidden text-center">
+                    <!-- Results will be shown here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Submission Confirmation Modal -->
+    <div id="submissionModal" class="fixed inset-0 z-50 items-center justify-center hidden">
+        <div class="modal-backdrop fixed inset-0 bg-black opacity-50"></div>
+        <div class="bg-[#FAF8F3] rounded-lg shadow-xl p-6 m-4 max-w-sm w-full z-10 border border-stone-300">
+            <h3 class="font-serif-display text-xl font-bold text-stone-900 mb-4">Xác nhận nộp bài</h3>
+            <p class="mb-6 text-stone-700">Em có chắc chắn muốn nộp bài không? Hành động này không thể hoàn tác.</p>
+            <div class="flex justify-end space-x-4">
+                <button id="cancelSubmitBtn" class="px-4 py-2 bg-stone-200 text-stone-800 rounded-md hover:bg-stone-300 border border-stone-300">Xem lại</button>
+                <button id="confirmSubmitBtn" class="secondary-btn text-white font-bold px-4 py-2 rounded-md">
+                    <span class="btn-text">Nộp bài</span>
+                    <div class="loader w-5 h-5 border-2 border-white border-t-transparent rounded-full hidden"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxROE6rV-RnqTYfPdu4N0rOGeLkzorJoeDF3uiOR0bOgOnz0Inr0QwTohngJGHGQVI/exec';
+
+    // --- State Management ---
+    const apiKeys = ['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'];
+    let currentApiKeyIndex = 0;
+    let quizQuestions = [];
+    let userAnswers = {};
+    let studentName = '';
+
+    // --- Element Selectors ---
+    const tabContainer = document.getElementById('tabContainer');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    // --- Initial Setup ---
+    function initialize() {
+        setupTabNavigation();
+        setupVelocitySimulation();
+        setupAIInteraction();
+        setupQuizFlow();
+        
+        switchTab('intro');
+    }
+
+    // --- Tab Navigation ---
+    function setupTabNavigation() {
+        tabContainer.addEventListener('click', (e) => {
+            if (e.target.matches('.tab-btn')) {
+                const tabName = e.target.dataset.tab;
+                switchTab(tabName);
+            }
+        });
+    }
+
+    function switchTab(tabName) {
+        tabPanes.forEach(pane => {
+            pane.classList.toggle('hidden', pane.id !== tabName);
+        });
+        tabContainer.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tabName);
+        });
+    }
+
+    // --- API Key Management ---
+    function getApiKey() {
+        if (apiKeys.length === 0) return null;
+        return apiKeys[currentApiKeyIndex];
+    }
+
+    function rotateApiKey() {
+        currentApiKeyIndex = (currentApiKeyIndex + 1) % apiKeys.length;
+    }
+
+    // --- Velocity Simulation ---
+    function setupVelocitySimulation() {
+        const svg = document.getElementById('svg-velocity');
+        svg.innerHTML = ''; 
+        const A = 80;
+        const T = 5000; 
+        const w = (2 * Math.PI) / T;
+
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+        marker.setAttribute('id', 'arrow');
+        marker.setAttribute('viewBox', '0 0 10 10');
+        marker.setAttribute('refX', 5);
+        marker.setAttribute('refY', 5);
+        marker.setAttribute('markerWidth', 4);
+        marker.setAttribute('markerHeight', 4);
+        marker.setAttribute('orient', 'auto-start-reverse');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+        path.setAttribute('fill', '#D97706');
+        marker.appendChild(path);
+        defs.appendChild(marker);
+        svg.appendChild(defs);
+
+        const circlePath = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circlePath.setAttribute('cx', 0);
+        circlePath.setAttribute('cy', 0);
+        circlePath.setAttribute('r', A);
+        circlePath.setAttribute('fill', 'none');
+        circlePath.setAttribute('stroke', '#D1D5DB');
+        circlePath.setAttribute('stroke-dasharray', '4 4');
+        svg.appendChild(circlePath);
+
+        const axisX = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        axisX.setAttribute('x1', -110); axisX.setAttribute('y1', 0);
+        axisX.setAttribute('x2', 110); axisX.setAttribute('y2', 0);
+        axisX.setAttribute('stroke', '#9CA3AF');
+        svg.appendChild(axisX);
+        
+        const axisY = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        axisY.setAttribute('x1', 0); axisY.setAttribute('y1', -110);
+        axisY.setAttribute('x2', 0); axisY.setAttribute('y2', 110);
+        axisY.setAttribute('stroke', '#9CA3AF');
+        svg.appendChild(axisY);
+
+        const projectionLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        projectionLine.setAttribute('stroke', '#60A5FA');
+        projectionLine.setAttribute('stroke-width', 1);
+        projectionLine.setAttribute('stroke-dasharray', '2 2');
+        svg.appendChild(projectionLine);
+
+        const circularMass = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circularMass.setAttribute('r', 5);
+        circularMass.setAttribute('fill', '#A5B4FC');
+        svg.appendChild(circularMass);
+
+        const oscillatingMass = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        oscillatingMass.setAttribute('r', 8);
+        oscillatingMass.setAttribute('fill', '#166534');
+        svg.appendChild(oscillatingMass);
+        
+        const velocityVector = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        velocityVector.setAttribute('stroke', '#D97706');
+        velocityVector.setAttribute('stroke-width', 3);
+        velocityVector.setAttribute('marker-end', 'url(#arrow)');
+        svg.appendChild(velocityVector);
+
+        let startTime = null;
+        function animate(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsedTime = timestamp - startTime;
+            const theta = w * elapsedTime;
+            const circX = A * Math.cos(theta);
+            const circY = -A * Math.sin(theta);
+            const oscX = circX;
+            const velocityVectorLength = -60 * Math.sin(theta);
+
+            circularMass.setAttribute('cx', circX);
+            circularMass.setAttribute('cy', circY);
+            oscillatingMass.setAttribute('cx', oscX);
+            oscillatingMass.setAttribute('cy', 0);
+            projectionLine.setAttribute('x1', circX);
+            projectionLine.setAttribute('y1', circY);
+            projectionLine.setAttribute('x2', oscX);
+            projectionLine.setAttribute('y2', 0);
+            velocityVector.setAttribute('x1', oscX);
+            velocityVector.setAttribute('y1', 0);
+            velocityVector.setAttribute('x2', oscX + velocityVectorLength);
+            velocityVector.setAttribute('y2', 0);
+
+            requestAnimationFrame(animate);
+        }
+        requestAnimationFrame(animate);
+    }
+
+    // --- AI Interaction ---
+    function setupAIInteraction() {
+        const submitBtn = document.getElementById('ai-submit-velocity');
+        submitBtn.addEventListener('click', handleAIQuery);
+    }
+
+    async function handleAIQuery() {
+        const promptInput = document.getElementById('ai-prompt-velocity');
+        const question = promptInput.value.trim();
+        if (!question) {
+            alert('Vui lòng nhập câu hỏi của bạn.');
+            return;
+        }
+
+        const responseContainer = document.getElementById('ai-response-velocity');
+        const submitBtn = document.getElementById('ai-submit-velocity');
+        toggleButtonLoading(submitBtn, true);
+        responseContainer.textContent = 'AI Thầy Lâm đang suy nghĩ...';
+        promptInput.disabled = true;
+
+        const fullPrompt = `Bạn là Thầy Lâm, một chuyên gia về môn Vật Lý. Hãy trả lời câu hỏi sau đây của học sinh về chủ đề 'vận tốc trong dao động điều hòa': "${question}". Chỉ trả lời nếu câu hỏi liên quan đến chủ đề, nếu không hãy từ chối một cách hài hước.`;
+        
+        try {
+            const content = await fetchWithApiKeyRotation('https://openrouter.ai/api/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'deepseek/deepseek-chat',
+                    messages: [{ role: 'user', content: fullPrompt }]
+                })
+            });
+            
+            if (content && content.choices && content.choices.length > 0) {
+                responseContainer.textContent = content.choices[0].message.content;
+            } else {
+                throw new Error('Phản hồi từ AI không hợp lệ.');
+            }
+            promptInput.value = '';
+
+        } catch (error) {
+            responseContainer.textContent = `Rất tiếc, đã có lỗi xảy ra: ${error.message}. Có thể API key của bạn không hợp lệ hoặc đã hết hạn.`;
+        } finally {
+            toggleButtonLoading(submitBtn, false);
+            promptInput.disabled = false;
+        }
+    }
+
+    async function fetchWithApiKeyRotation(url, options, initialTry = true) {
+        if (apiKeys.length === 0) throw new Error("Không có API key nào được cấu hình.");
+        const apiKey = getApiKey();
+        if (!apiKey) throw new Error("Không tìm thấy API key hợp lệ.");
+
+        const headers = { ...options.headers, 'Authorization': `Bearer ${apiKey}` };
+        const newOptions = { ...options, headers };
+
+        try {
+            const response = await fetch(url, newOptions);
+            if (!response.ok) {
+                if ((response.status === 401 || response.status === 403) && (initialTry || currentApiKeyIndex !== 0)) {
+                     rotateApiKey();
+                     if(currentApiKeyIndex === 0 && !initialTry) {
+                        throw new Error(`Tất cả ${apiKeys.length} API key đều không hợp lệ hoặc đã hết hạn.`);
+                     }
+                     return fetchWithApiKeyRotation(url, options, false);
+                }
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(`Lỗi ${response.status}: ${errorData.error?.message || response.statusText}`);
+            }
+            return await response.json();
+        } catch (error) {
+            if (initialTry || currentApiKeyIndex !== 0) {
+                rotateApiKey();
+                if(currentApiKeyIndex === 0 && !initialTry) {
+                    throw new Error(`Lỗi mạng và đã thử hết các API key. Chi tiết: ${error.message}`);
+                }
+                return fetchWithApiKeyRotation(url, options, false);
+            }
+            throw error;
+        }
+    }
+
+    // --- Quiz Flow ---
+    function setupQuizFlow() {
+        document.getElementById('startQuizBtn').addEventListener('click', handleStartQuiz);
+        document.getElementById('cancelSubmitBtn').addEventListener('click', () => toggleModal(false));
+        document.getElementById('confirmSubmitBtn').addEventListener('click', submitQuiz);
+    }
+
+    async function handleStartQuiz() {
+        studentName = document.getElementById('studentName').value.trim();
+        if (!studentName) {
+            alert('Em quên nhập tên rồi!');
+            return;
+        }
+        
+        const startBtn = document.getElementById('startQuizBtn');
+        toggleButtonLoading(startBtn, true);
+
+        try {
+            const data = await callAppsScript({ action: 'startQuiz', name: studentName });
+
+            if (data.error) throw new Error(data.error);
+            if (!data.questions || data.questions.length === 0) {
+                throw new Error("Không thể tải được câu hỏi. Vui lòng thử lại.");
+            }
+            
+            quizQuestions = data.questions; 
+
+            showInfoScreen(data);
+
+        } catch (error) {
+            alert(`Đã có lỗi xảy ra khi bắt đầu bài kiểm tra: ${error.message}`);
+        } finally {
+            toggleButtonLoading(startBtn, false);
+        }
+    }
+
+    function showInfoScreen(data) {
+        const infoScreen = document.getElementById('quiz-info-screen');
+        const startScreen = document.getElementById('quiz-start-screen');
+
+        let infoMessage = '';
+        if (data.lastScore !== null) {
+            infoMessage = `<p class="text-lg mb-2">Chào mừng trở lại, <strong>${studentName}</strong>!</p>
+                           <p class="mb-4">Điểm bài tập buổi trước của bạn là: <strong class="text-xl text-blue-600">${data.lastScore}</strong>/10.</p>`;
+        } else {
+            infoMessage = `<p class="text-lg mb-4">Chào mừng bạn lần đầu làm bài kiểm tra, <strong>${studentName}</strong>!</p>`;
+        }
+        infoMessage += `<p class="mb-6">Buổi này bạn sẽ làm <strong class="text-xl text-green-700">${data.numQuestions}</strong> câu hỏi. Cố gắng lên nhé!</p>`;
+        
+        infoScreen.innerHTML = `
+            <h2 class="font-serif-display text-2xl font-bold text-green-900 mb-4">Thông tin bài làm</h2>
+            <div class="bg-stone-100 p-6 rounded-lg border border-stone-200">${infoMessage}</div>
+            <button id="confirmStartBtn" class="w-full primary-btn text-white font-bold py-3 px-6 rounded-md mt-6 text-lg">Sẵn sàng!</button>
+        `;
+
+        startScreen.classList.add('hidden');
+        infoScreen.classList.remove('hidden');
+        
+        document.getElementById('confirmStartBtn').addEventListener('click', () => {
+            infoScreen.classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            renderQuiz();
+        });
+    }
+    
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = `
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-serif-display text-2xl font-bold text-green-900">Chúc em làm bài tốt!</h2>
+                <div id="quiz-timer" class="text-lg font-semibold bg-amber-100 text-amber-800 px-3 py-1 rounded-md border border-amber-200">15:00</div>
+            </div>
+            <div id="questions-list" class="space-y-8"></div>
+            <button id="submitQuizBtn" class="w-full primary-btn text-white font-bold py-3 px-6 rounded-md mt-8 text-lg">Nộp bài</button>
+        `;
+
+        const questionsList = document.getElementById('questions-list');
+        quizQuestions.forEach((q, index) => {
+            questionsList.appendChild(createQuestionElement(q, index));
+        });
+        
+        document.getElementById('submitQuizBtn').addEventListener('click', () => toggleModal(true));
+        startTimer(15 * 60, document.getElementById('quiz-timer'));
+    }
+
+    function createQuestionElement(q, index) {
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'p-5 bg-stone-50 rounded-lg border border-stone-200';
+        questionDiv.dataset.questionText = q.question;
+
+        let optionsHtml = '';
+        switch (q.type) {
+            case 'mc':
+                optionsHtml = q.options.map((opt, i) => `
+                    <div class="choice-card p-3 rounded-lg" data-index="${i}">
+                        <span class="font-bold mr-2">${String.fromCharCode(65 + i)}.</span> ${opt}
+                    </div>
+                `).join('');
+                break;
+            case 'tf':
+                optionsHtml = `
+                    <div class="choice-card p-3 rounded-lg" data-index="true">Đúng</div>
+                    <div class="choice-card p-3 rounded-lg" data-index="false">Sai</div>
+                `;
+                break;
+            case 'fib':
+                optionsHtml = `<input type="text" class="fib-input w-full p-2 border border-stone-300 rounded-md" placeholder="Nhập câu trả lời của em...">`;
+                break;
+        }
+
+        questionDiv.innerHTML = `
+            <div class="flex justify-between items-start mb-3">
+                <p class="text-lg flex-grow"><span class="font-bold">Câu ${index + 1}:</span> ${q.question}</p>
+                <button class="flag-btn p-1 rounded-full hover:bg-amber-100" title="Đánh dấu câu này">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-stone-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-3.125L5 18V4z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-3 mt-4">${optionsHtml}</div>
+        `;
+
+        questionDiv.querySelector('.flag-btn').addEventListener('click', (e) => {
+            e.currentTarget.classList.toggle('flagged');
+        });
+
+        if (q.type === 'mc' || q.type === 'tf') {
+            questionDiv.querySelectorAll('.choice-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    card.parentElement.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    userAnswers[index] = q.type === 'tf' ? (card.dataset.index === 'true') : parseInt(card.dataset.index);
+                });
+            });
+        } else if (q.type === 'fib') {
+            questionDiv.querySelector('.fib-input').addEventListener('input', (e) => {
+                userAnswers[index] = e.target.value;
+            });
+        }
+        
+        return questionDiv;
+    }
+
+    function toggleModal(show) {
+        const modal = document.getElementById('submissionModal');
+        modal.style.display = show ? 'flex' : 'none';
+    }
+
+    async function submitQuiz() {
+        const confirmBtn = document.getElementById('confirmSubmitBtn');
+        toggleButtonLoading(confirmBtn, true);
+        
+        const answersPayload = quizQuestions.map((q, index) => ({
+            question: q.question,
+            answer: userAnswers[index] !== undefined ? userAnswers[index] : null
+        }));
+
+        try {
+            const result = await callAppsScript({
+                action: 'submitQuiz',
+                name: studentName,
+                answers: answersPayload
+            });
+            showResults(result);
+        } catch (error) {
+            alert(`Lỗi khi nộp bài: ${error.message}`);
+        } finally {
+            toggleButtonLoading(confirmBtn, false);
+            toggleModal(false);
+        }
+    }
+
+    function showResults(result) {
+        document.getElementById('quiz-container').classList.add('hidden');
+        const resultsScreen = document.getElementById('quiz-results-screen');
+        resultsScreen.classList.remove('hidden');
+
+        resultsScreen.innerHTML = `
+            <h2 class="font-serif-display text-3xl font-bold text-green-900 mb-2">Hoàn thành!</h2>
+            <p class="text-xl text-stone-700 mb-4">${result.feedbackComment}</p>
+            <div class="flex justify-center space-x-8 my-6">
+                <div class="p-4 bg-stone-100 rounded-lg border border-stone-200">
+                    <div class="text-4xl font-bold text-blue-600">${result.correctCount}/${result.total}</div>
+                    <div class="text-sm text-blue-500">Số câu đúng</div>
+                </div>
+                <div class="p-4 bg-stone-100 rounded-lg border border-stone-200">
+                    <div class="text-4xl font-bold text-amber-700">${result.percentage}%</div>
+                    <div class="text-sm text-amber-600">Tỷ lệ chính xác</div>
+                </div>
+            </div>
+            <div class="mt-8 text-left p-6 bg-stone-50 rounded-lg border border-stone-200">
+                <h3 class="font-serif-display text-2xl font-bold text-green-900 mb-4">Phân tích từ AI Thầy Lâm</h3>
+                <div class="whitespace-pre-wrap leading-relaxed">${result.analysis || "Không thể nhận phân tích từ AI lúc này."}</div>
+            </div>
+            <button id="reviewAnswersBtn" class="secondary-btn text-white font-bold py-2 px-6 rounded-md mt-8">Xem lại đáp án</button>
+        `;
+        
+        document.getElementById('reviewAnswersBtn').addEventListener('click', () => {
+            reviewAnswers(result.correctAnswers);
+        });
+    }
+    
+    function reviewAnswers(correctAnswers) {
+        document.getElementById('quiz-results-screen').classList.add('hidden');
+        document.getElementById('quiz-container').classList.remove('hidden');
+        document.getElementById('submitQuizBtn').style.display = 'none';
+        
+        const questionElements = document.querySelectorAll('#questions-list > div');
+        questionElements.forEach((qDiv, index) => {
+            const question = quizQuestions[index];
+            const correctAnswer = correctAnswers[index].answer;
+            const userAnswer = userAnswers[index];
+
+            const optionsContainer = qDiv.querySelector('.space-y-3');
+            optionsContainer.style.pointerEvents = 'none';
+
+            if (question.type === 'mc' || question.type === 'tf') {
+                const choiceCards = optionsContainer.querySelectorAll('.choice-card');
+                choiceCards.forEach(card => {
+                    const cardIndex = question.type === 'tf' ? (card.dataset.index === 'true') : parseInt(card.dataset.index);
+                    if (cardIndex === correctAnswer) {
+                        card.classList.add('correct');
+                    } else if (cardIndex === userAnswer) {
+                        card.classList.add('incorrect');
+                    }
+                });
+            } else if (question.type === 'fib') {
+                const input = optionsContainer.querySelector('.fib-input');
+                input.disabled = true;
+                const isCorrect = input.value.trim().toLowerCase() === String(correctAnswer).toLowerCase();
+                input.classList.add(isCorrect ? 'bg-green-100' : 'bg-red-100');
+
+                const correctAnswerEl = document.createElement('div');
+                correctAnswerEl.className = 'mt-2 p-2 bg-amber-100 text-amber-800 rounded-md';
+                correctAnswerEl.innerHTML = `<strong>Đáp án đúng:</strong> ${correctAnswer}`;
+                optionsContainer.appendChild(correctAnswerEl);
+            }
+        });
+        window.scrollTo(0, 0);
+    }
+
+
+    // --- Utility Functions ---
+    async function callAppsScript(payload) {
+        if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT_URL')) {
+            throw new Error("URL của Google Apps Script chưa được cấu hình. Vui lòng cập nhật biến SCRIPT_URL trong mã nguồn.");
+        }
+        try {
+             const directResponse = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(payload)
+            });
+            if (!directResponse.ok) {
+                const errorText = await directResponse.text();
+                throw new Error(`Lỗi từ server: ${directResponse.statusText} - ${errorText}`);
+            }
+            return await directResponse.json();
+        } catch(e) {
+            console.error("Lỗi CORS hoặc lỗi mạng. Hãy chắc chắn Apps Script đã được triển khai đúng cách và có quyền truy cập.", e);
+            throw new Error("Không thể kết nối đến server bài tập. Vui lòng kiểm tra lại đường dẫn URL và cấu hình triển khai của Apps Script.");
+        }
+    }
+
+    function toggleButtonLoading(button, isLoading) {
+        const btnText = button.querySelector('.btn-text');
+        const loader = button.querySelector('.loader');
+        button.disabled = isLoading;
+        if (btnText) btnText.classList.toggle('hidden', isLoading);
+        if (loader) loader.classList.toggle('hidden', !isLoading);
+    }
+    
+    let timerInterval;
+    function startTimer(duration, display) {
+        let timer = duration, minutes, seconds;
+        clearInterval(timerInterval);
+        timerInterval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                if (document.getElementById('quiz-container').offsetParent !== null) {
+                    alert("Hết giờ làm bài! Bài của bạn sẽ được nộp tự động.");
+                    submitQuiz();
+                }
+            }
+        }, 1000);
+    }
+
+    // --- Let's go! ---
+    initialize();
+});
+</script>
+
+</body>
+</html>
